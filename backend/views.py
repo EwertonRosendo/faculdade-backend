@@ -9,6 +9,17 @@ from django.contrib.auth.models import User
 
 from password_generator import PasswordGenerator
 
+""".@method_decorator(name="get", decorator=swagger_auto_schema(
+    manual_parameters=[
+        'post_slug', openapi.IN_QUERY,
+        description=("A unique string value identifying requested post")
+        type=openapi.TYPE_STRING,
+        enum=[ps.value for ps in PostStatus],
+        required=True
+    ]    
+)),"""
+
+
 class UserView(APIView):
     #select * from users
     def get(self, request, *args, **kwargs):

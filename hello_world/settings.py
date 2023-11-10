@@ -44,7 +44,15 @@ INSTALLED_APPS = [
     "backend",
     "rest_framework",
     "rest_framework_swagger",
+    'drf_yasg',
+    "drf_spectacular"
 ]
+
+REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema' }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE":"Django DRF Ecommerce"
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

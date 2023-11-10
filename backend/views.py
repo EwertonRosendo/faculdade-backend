@@ -3,7 +3,7 @@ from rest_framework.response import Response
 
 from .serializers import UserSerializer, PasswordSerializer
 from django.core import serializers
-
+from drf_spectacular.utils import extend_schema
 from .models import Password
 from django.contrib.auth.models import User
 
@@ -22,6 +22,7 @@ from password_generator import PasswordGenerator
 
 class UserView(APIView):
     #select * from users
+    @extend_schema(responses=UserSerializer)
     def get(self, request, *args, **kwargs):
 
         users = User.objects.all()
@@ -34,6 +35,7 @@ class UserView(APIView):
         return Response(data)
     
     #insert into users (username, email, password) values (?, ?, ?)
+    @extend_schema(responses=UserSerializer)
     def post(self, request, *args, **kwargs):
         
         serializer = UserSerializer(data=request.data)
@@ -46,6 +48,7 @@ class UserView(APIView):
     
 class PasswordView(APIView):
     #select user_id, password from passwords
+    @extend_schema(responses=PasswordSerializer)
     def get(self, request, *args, **kwargs):
         passwords = Password.objects.all()
         data = {'passwords':[
@@ -56,6 +59,7 @@ class PasswordView(APIView):
 
         return Response(data)
     #insert into passwords (user_id, lenghtPassword, password) values (?, ?, ?)
+    @extend_schema(responses=PasswordSerializer)
     def post(self, request, *ars, **kwargs):
         
         lenPassword, user_id = request.data['lenghtPassword'], request.data['user_id']

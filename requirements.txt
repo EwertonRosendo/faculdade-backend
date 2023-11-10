@@ -1,3 +1,7 @@
 Django==4.1.10
 django-browser-reload==1.6.0
 random-password-generator==2.2.0
+drf-spectacular
+drf-yasg
+rest-framework
+rest-framework_swagger

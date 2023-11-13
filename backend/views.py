@@ -8,6 +8,7 @@ from .models import Password
 from django.contrib.auth.models import User
 
 from password_generator import PasswordGenerator
+from django.shortcuts import get_object_or_404
 
 """.@method_decorator(name="get", decorator=swagger_auto_schema(
     manual_parameters=[
@@ -46,6 +47,27 @@ class UserView(APIView):
         
         return Response({'error':'email  ou username já cadastrados anteriormente'})
     
+    # select * from users where id = ?
+    @extend_schema(responses=UserSerializer)
+    def put(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user = get_object_or_404(User, id=user_id)
+        serializer = UserSerializer(instance=user, data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'Usuário atualizado com sucesso'})
+        
+        return Response({'error': 'Erro na atualização do usuário'})
+
+    # delete from users where id = ?
+    @extend_schema(responses=UserSerializer)
+    def delete(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user = get_object_or_404(User, id=user_id)
+        user.delete()
+        return Response({'status': 'Usuário excluído com sucesso'})
+    
 class PasswordView(APIView):
     #select user_id, password from passwords
     @extend_schema(responses=PasswordSerializer)
@@ -79,3 +101,23 @@ class PasswordView(APIView):
 
        
         return Response({'status':'senha não armazenada'})
+    # select * from passwords where id = ?
+    @extend_schema(responses=PasswordSerializer)
+    def put(self, request, *args, **kwargs):
+        password_id = kwargs.get('pk')
+        password = get_object_or_404(Password, id=password_id)
+        serializer = PasswordSerializer(instance=password, data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'Senha atualizada com sucesso'})
+        
+        return Response({'error': 'Erro na atualização da senha'})
+
+    # delete from passwords where id = ?
+    @extend_schema(responses=PasswordSerializer)
+    def delete(self, request, *args, **kwargs):
+        password_id = kwargs.get('pk')
+        password = get_object_or_404(Password, id=password_id)
+        password.delete()
+        return Response({'status': 'Senha excluída com sucesso'})

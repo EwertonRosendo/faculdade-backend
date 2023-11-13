@@ -82,7 +82,7 @@ class PasswordView(APIView):
         return Response(data)
     #insert into passwords (user_id, lenghtPassword, password) values (?, ?, ?)
     @extend_schema(responses=PasswordSerializer)
-    def post(self, request, *ars, **kwargs):
+    def post(self, request, *args, **kwargs):
         
         lenPassword, user_id = request.data['lenghtPassword'], request.data['user_id']
         

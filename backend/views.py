@@ -84,14 +84,14 @@ class PasswordView(APIView):
     @extend_schema(responses=PasswordSerializer)
     def post(self, request, *args, **kwargs):
         
-        lenPassword, user_id = request.data['lenghtPassword'], request.data['user_id']
+        lenPassword, user_id = request.data['lengthPassword'], request.data['user_id']
         
         PG = PasswordGenerator()
         PG.minlen = lenPassword
         PG.maxlen = lenPassword
         password = PG.generate()
         
-        serializer = PasswordSerializer(data={'lenghtPassword':lenPassword, 'password':password, 'user_id':user_id})
+        serializer = PasswordSerializer(data={'lengthPassword':lenPassword, 'password':password, 'user_id':user_id})
 
         
         if serializer.is_valid():

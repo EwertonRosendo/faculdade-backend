@@ -19,4 +19,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class PasswordSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Password
-        fields = ['lenghtPassword','password', 'user_id']
+        fields = ['lengthPassword','password', 'user_id']

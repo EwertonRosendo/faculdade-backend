@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from rest_framework.schemas import get_schema_view
 from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-
+from rest_framework.routers import DefaultRouter
 from hello_world.core import views as core_views
 
 urlpatterns = [

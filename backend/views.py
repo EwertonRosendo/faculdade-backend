@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from .serializers import UserSerializer, PasswordSerializer
 from django.core import serializers
 from drf_spectacular.utils import extend_schema
@@ -83,22 +85,24 @@ class PasswordView(APIView):
     #insert into passwords (user_id, lenghtPassword, password) values (?, ?, ?)
     @extend_schema(responses=PasswordSerializer)
     def post(self, request, *args, **kwargs):
+        if request.data:
+            data = request.data        
         
-        lenPassword, user_id = request.data['lengthPassword'], request.data['user_id']
+            
+            
         
         PG = PasswordGenerator()
-        PG.minlen = lenPassword
-        PG.maxlen = lenPassword
+        PG.minlen = 1
+        PG.maxlen = 10
         password = PG.generate()
         
-        serializer = PasswordSerializer(data={'lengthPassword':lenPassword, 'password':password, 'user_id':user_id})
 
+        serializer = PasswordSerializer(data={'password':password,'lengthPassword':request.data['lengthPassword'], 'user_id':request.data['user_id']})
+        #serializer = PasswordSerializer(data=data)
         
-        if serializer.is_valid():
-            data = {'password':password, 'status':'deu bom'}
+        if serializer.is_valid() :
             serializer.save()
-            return Response(data)
-
+            return Response({'status':'senha cadastrado'}, status=status.HTTP_201_CREATED)
        
         return Response({'status':'senha não armazenada'})
     # select * from passwords where id = ?
@@ -116,8 +120,7 @@ class PasswordView(APIView):
 
     # delete from passwords where id = ?
     @extend_schema(responses=PasswordSerializer)
-    def delete(self, request, *args, **kwargs):
-        password_id = kwargs.get('pk')
-        password = get_object_or_404(Password, id=password_id)
-        password.delete()
-        return Response({'status': 'Senha excluída com sucesso'})
+    def delete(self, request, id, *args, **kwargs):
+        data = PasswordSerializer.objects.get(id=id)
+        data.delete()
+        return Response({'status':'deletado com sucesso'}, status=status.HTTP_202_ACCEPTED)

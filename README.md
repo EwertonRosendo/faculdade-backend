@@ -1,18 +1,61 @@
-# GitHub Codespaces ♥️ Django
+Django REST API
+Este é um projeto simples de Django para criar uma API REST para gerenciamento de usuários e senhas.
 
-Welcome to your shiny new Codespace running Django! We've got everything fired up and running for you to explore Django.
+Instalação
+1.Certifique-se de ter o Python instalado. Se não, você pode baixá-lo aqui.
 
-You've got a blank canvas to work on from a git perspective as well. There's a single initial commit with the what you're seeing right now - where you go from here is up to you!
+2.Clone este repositório:
+git clone https://github.com/seu-usuario/nome-do-repositorio.git
 
-Everything you do here is contained within this one codespace. There is no repository on GitHub yet. If and when you’re ready you can click "Publish Branch" and we’ll create your repository and push up your project. If you were just exploring then and have no further need for this code then you can simply delete your codespace and it's gone forever.
-To collect static files:
+3.Navegue até o diretório do projeto:
+cd nome-do-repositorio
 
-```python
-python manage.py collectstatic
-```
+4.Instale as dependências:
+pip install -r requirements.txt
 
-To run this application:
+5.Aplique as migrações do Django:
+python manage.py migrate
 
-```python
+6.Execute o servidor de desenvolvimento:
 python manage.py runserver
-```
+
+A API estará disponível em http://127.0.0.1:8000/.
+
+Endpoints
+Usuários
+GET /users/
+
+Retorna a lista de todos os usuários.
+POST /users/
+
+Cria um novo usuário. Enviar dados no formato JSON:
+{
+  "username": "nome_de_usuario",
+  "email": "email@example.com",
+  "password": "senha_segura"
+}
+
+PUT /users/{id}/
+
+Atualiza um usuário existente. Enviar dados no formato JSON:
+{
+  "username": "novo_nome_de_usuario",
+  "email": "novo_email@example.com",
+  "password": "nova_senha_segura"
+}
+DELETE /users/{id}/
+
+Exclui um usuário existente.
+Senhas
+GET /passwords/
+
+Retorna a lista de todas as senhas.
+POST /passwords/
+
+Gera e salva uma nova senha para um usuário. Enviar dados no formato JSON:
+{
+  "user_id": 1,
+  "lenghtPassword": 12
+}
+Contribuições
+Contribuições são bem-vindas! Sinta-se à vontade para abrir um problema ou enviar um pull request.
